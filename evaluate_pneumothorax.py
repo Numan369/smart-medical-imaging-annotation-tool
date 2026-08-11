@@ -8,12 +8,11 @@ from pneumothorax_model import PneumothoraxResNet34UNet
 
 
 CHECKPOINT_PATH = (
-    Path("checkpoints")
-    / "balanced_decoder_stage_best.pth"
+    Path("checkpoints") / "fine_tune_stage_best.pth"
 )
-PREDICTION_THRESHOLD = 0.5
+PREDICTION_THRESHOLD = 0.35
 PROGRESS_INTERVAL = 50
-EXPECTED_TRAINING_STAGE = "balanced_weighted_decoder_only"
+EXPECTED_TRAINING_STAGE = "balanced_weighted_partial_encoder_finetune"
 
 
 def choose_device():

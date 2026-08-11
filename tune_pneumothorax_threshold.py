@@ -9,15 +9,14 @@ from pneumothorax_model import PneumothoraxResNet34UNet
 
 CHECKPOINT_PATH = (
     Path("checkpoints")
-    / "balanced_decoder_stage_best.pth"
+    / "fine_tune_stage_best.pth"
 )
 THRESHOLDS = torch.tensor(
     [0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70],
     dtype=torch.float32,
 )
 PROGRESS_INTERVAL = 50
-EXPECTED_TRAINING_STAGE = "balanced_weighted_decoder_only"
-
+EXPECTED_TRAINING_STAGE = "balanced_weighted_partial_encoder_finetune"
 
 def choose_device():
     """Use an NVIDIA GPU when available."""

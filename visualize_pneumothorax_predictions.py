@@ -10,12 +10,14 @@ from pneumothorax_model import PneumothoraxResNet34UNet
 
 CHECKPOINT_PATH = (
     Path("checkpoints")
-    / "balanced_decoder_stage_best.pth"
+    / "fine_tune_stage_best.pth"
 )
 OUTPUT_DIRECTORY = Path("prediction_examples")
 OUTPUT_PATH = OUTPUT_DIRECTORY / "test_prediction_comparison.png"
-PREDICTION_THRESHOLD = 0.5
-EXPECTED_TRAINING_STAGE = "balanced_weighted_decoder_only"
+PREDICTION_THRESHOLD = 0.35
+EXPECTED_TRAINING_STAGE = (
+    "balanced_weighted_partial_encoder_finetune"
+)
 POSITIVE_EXAMPLES = 6
 PROGRESS_INTERVAL = 50
 
@@ -305,7 +307,8 @@ def create_comparison_figure(selected_samples):
         axes[row, 3].axis("off")
 
     figure.suptitle(
-        "Pneumothorax test predictions at threshold 0.5\n"
+        "Pneumothorax test predictions at threshold "
+        f"{PREDICTION_THRESHOLD:.2f}\n"
         "Yellow = correct overlap, green = missed, red = false positive",
         fontsize=14,
     )
