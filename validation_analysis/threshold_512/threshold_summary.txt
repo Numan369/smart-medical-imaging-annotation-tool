@@ -1,0 +1,30 @@
+Pneumothorax 512 x 512 validation threshold tuning
+===================================================
+Checkpoint: E:\Smart Medical Imaging Annotation Tool\checkpoints\pneumothorax_512_best.pth
+Dataset split: validation only
+Test split used: False
+Validation images: 1205
+Positive images: 267
+Negative images: 938
+Checkpoint epoch: 5
+Checkpoint best positive Dice: 0.45526544588586587
+
+Training-time threshold (0.35)
+  Positive-case Dice: 0.455294
+  Empty positive predictions: 3 / 267 (1.12%)
+  False-positive negative images: 688 / 938 (73.35%)
+
+Highest positive-case Dice candidate
+  Threshold: 0.15
+  Positive-case Dice: 0.456413
+  Empty positive predictions: 3 / 267 (1.12%)
+  False-positive negative images: 726 / 938 (77.40%)
+
+Highest balanced-score candidate
+  Threshold: 0.70
+  Positive-case Dice: 0.451116
+  Negative empty-mask accuracy: 0.310235
+  Balanced score: 0.367641
+
+Evaluation time: 21.3 min
+No checkpoint or model parameters were changed.

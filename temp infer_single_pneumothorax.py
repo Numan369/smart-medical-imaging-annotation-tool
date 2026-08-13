@@ -1,11 +1,6 @@
-"""Generate a pneumothorax mask for one DICOM chest X-ray.
-
-This inference-only script is locked to the validation-selected epoch-4
-negative-aware model. It does not train the model or change its threshold.
-"""
+"""Generate an editable pneumothorax mask for one DICOM chest X-ray."""
 
 import argparse
-import math
 from pathlib import Path
 import re
 
@@ -20,15 +15,13 @@ from pneumothorax_dataset import normalise_dicom_image
 from pneumothorax_model import PneumothoraxResNet34UNet
 
 
-CHECKPOINT_PATH = (
-    Path("checkpoints")
-    / "pneumothorax_512_negative_aware_best.pth"
-)
+CHECKPOINT_PATH = Path("checkpoints") / "fine_tune_stage_best.pth"
 OUTPUT_DIRECTORY = Path("inference_outputs")
 PREDICTION_THRESHOLD = 0.35
-MODEL_IMAGE_SIZE = 512
-EXPECTED_TRAINING_STAGE = "pneumothorax_512_negative_aware_finetune"
-EXPECTED_COMPLETED_EPOCH = 4
+MODEL_IMAGE_SIZE = 256
+EXPECTED_TRAINING_STAGE = (
+    "balanced_weighted_partial_encoder_finetune"
+)
 
 
 def parse_arguments():
@@ -102,11 +95,11 @@ def choose_device():
 
 
 def load_checkpoint(model, device):
-    """Validate and restore the locked epoch-4 model weights."""
+    """Restore the validated fine-tuned model weights."""
 
     if not CHECKPOINT_PATH.is_file():
         raise FileNotFoundError(
-            "The negative-aware checkpoint was not found at: "
+            "The fine-tuned checkpoint was not found at: "
             f"{CHECKPOINT_PATH.resolve()}"
         )
 
@@ -133,45 +126,6 @@ def load_checkpoint(model, device):
         raise ValueError(
             "Unexpected checkpoint training stage: "
             f"{training_stage!r}"
-        )
-
-    completed_epoch = checkpoint.get("completed_epoch")
-
-    if completed_epoch != EXPECTED_COMPLETED_EPOCH:
-        raise ValueError(
-            "Expected the validation-selected epoch-4 checkpoint, found "
-            f"epoch {completed_epoch!r}."
-        )
-
-    configuration = checkpoint.get("configuration", {})
-    checkpoint_image_size = configuration.get("image_size")
-    checkpoint_threshold = configuration.get("prediction_threshold")
-
-    if checkpoint_image_size != MODEL_IMAGE_SIZE:
-        raise ValueError(
-            "Checkpoint image size does not match this inference script: "
-            f"{checkpoint_image_size!r} versus {MODEL_IMAGE_SIZE}."
-        )
-
-    try:
-        threshold_matches = math.isclose(
-            float(checkpoint_threshold),
-            PREDICTION_THRESHOLD,
-            rel_tol=0.0,
-            abs_tol=1e-12,
-        )
-    except (TypeError, ValueError):
-        threshold_matches = False
-
-    if not threshold_matches:
-        raise ValueError(
-            "Checkpoint threshold does not match the locked threshold: "
-            f"{checkpoint_threshold!r} versus {PREDICTION_THRESHOLD}."
-        )
-
-    if configuration.get("test_split_used") is not False:
-        raise ValueError(
-            "Checkpoint metadata does not confirm an untouched test split."
         )
 
     model.load_state_dict(checkpoint["model_state_dict"])
@@ -239,20 +193,13 @@ def prepare_image(dicom_path):
     )
 
 
-@torch.inference_mode()
+@torch.no_grad()
 def predict_mask(model, image_tensor, device, output_size):
-    """Predict at 512 x 512, then restore the original image size."""
+    """Predict at 256 x 256, then restore the original image size."""
 
     model.eval()
     image_tensor = image_tensor.to(device)
     probabilities = torch.sigmoid(model(image_tensor))
-
-    if probabilities.shape != (1, 1, MODEL_IMAGE_SIZE, MODEL_IMAGE_SIZE):
-        raise ValueError(
-            "Unexpected model output shape: "
-            f"{tuple(probabilities.shape)}"
-        )
-
     small_mask = probabilities >= PREDICTION_THRESHOLD
 
     full_size_mask = F.interpolate(
@@ -329,7 +276,6 @@ def main():
     print(f"Device: {device}")
     print(f"Selected DICOM: {dicom_path.resolve()}")
     print(f"Checkpoint: {CHECKPOINT_PATH.resolve()}")
-    print(f"Model input size: {MODEL_IMAGE_SIZE} x {MODEL_IMAGE_SIZE}")
     print(f"Prediction threshold: {PREDICTION_THRESHOLD}")
 
     (
@@ -350,12 +296,9 @@ def main():
     # needed during inference.
     model = PneumothoraxResNet34UNet(
         use_pretrained_encoder=False,
-        freeze_encoder=True,
+        freeze_encoder=False,
     ).to(device)
     checkpoint = load_checkpoint(model, device)
-
-    print(f"Checkpoint epoch: {checkpoint['completed_epoch']}")
-    print(f"Training stage: {checkpoint['training_stage']}")
 
     _, mask = predict_mask(
         model,
