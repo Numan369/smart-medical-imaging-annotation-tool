@@ -1,0 +1,54 @@
+{
+  "configuration_name": "pneumothorax_v4a_balanced_operating_point",
+  "status": "frozen_before_single_test_evaluation",
+  "frozen_utc": "2026-08-15T16:41:38.207738+00:00",
+  "model": {
+    "checkpoint_filename": "pneumothorax_512_v4a_fresh_45_55_best.pth",
+    "checkpoint_completed_epoch": 10,
+    "checkpoint_sha256": "109e102e7a521abc6c904e1c5ad214e1a3f18a5b3bfd3dc0d51c98be4a585635",
+    "input_size": [
+      512,
+      512
+    ]
+  },
+  "postprocessing": {
+    "probability_threshold": 0.15,
+    "minimum_component_pixels": 112,
+    "component_connectivity": 8,
+    "processing_resolution": [
+      512,
+      512
+    ],
+    "operation_order": [
+      "apply sigmoid to model logits",
+      "threshold probability map at >= 0.15",
+      "identify eight-connected regions",
+      "remove regions smaller than 112 pixels"
+    ]
+  },
+  "validation_metrics": {
+    "samples": 1205,
+    "positive_samples": 267,
+    "negative_samples": 938,
+    "positive_dice": 0.4551497555818099,
+    "overall_case_dice": 0.6576970827720688,
+    "sensitivity": 0.9250936329588016,
+    "specificity": 0.7153518123667377,
+    "positive_empty_predictions": 20,
+    "false_positive_negative_images": 267,
+    "negative_mean_predicted_fraction": 0.0011289226475046,
+    "selection_score": 0.5563293744652852
+  },
+  "selection_rationale": [
+    "Improved positive Dice compared with the original 0.35 unfiltered configuration.",
+    "Removed 64 negative false-positive cases without introducing a new negative false-positive case.",
+    "The five newly empty positive cases had only tiny, very-low-overlap predictions under the original rule.",
+    "Rejected more aggressive candidates because their case-level sensitivity decreased excessively.",
+    "Visual review confirmed that removed predictions were predominantly isolated speckles."
+  ],
+  "test_policy": {
+    "test_evaluation_performed": false,
+    "further_calibration_after_test_allowed": false,
+    "note": "The untouched test split will be evaluated exactly once using this frozen configuration."
+  }
+}

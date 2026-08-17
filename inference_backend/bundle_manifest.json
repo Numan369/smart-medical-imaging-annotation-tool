@@ -1,0 +1,52 @@
+{
+  "bundle_name": "pneumothorax_inference_bundle",
+  "created_utc": "2026-08-15T16:59:02.745435+00:00",
+  "research_use_only": true,
+  "configuration_sha256": "6555345f26140800b758f4cbba1277f4bd501b71382c40f54b9d5cd1da529e4e",
+  "frozen_configuration": {
+    "checkpoint_epoch": 10,
+    "probability_threshold": 0.15,
+    "minimum_component_pixels": 112,
+    "input_size": [
+      512,
+      512
+    ]
+  },
+  "packaging_runtime": {
+    "python": "3.12.13",
+    "torch": "2.11.0+cu128"
+  },
+  "test_results": {
+    "positive_dice": 0.47590817618291714,
+    "positive_dice_bootstrap_95_ci": [
+      0.4411436767674087,
+      0.5098502016294701
+    ],
+    "overall_case_dice": 0.6539979112372106,
+    "sensitivity": 0.9026217228464419,
+    "sensitivity_wilson_95_ci": [
+      0.8611433721258931,
+      0.9326785518326125
+    ],
+    "specificity": 0.7046908315565032,
+    "specificity_wilson_95_ci": [
+      0.6747096529332143,
+      0.7330022170882416
+    ],
+    "positive_empty_predictions": 26,
+    "false_positive_negative_images": 277,
+    "negative_mean_predicted_fraction": 0.0013556815922133195,
+    "selection_score": 0.5681321536277296
+  },
+  "files_sha256": {
+    "pneumothorax_inference.py": "d0f99e4eea1fe750899b2c4d3e13fd5fa2288ddda216c83f7412de0ee477d986",
+    "pneumothorax_model.py": "98dc0d5f33e231d3355d2f998b2987162cc7586ebd701f18f9eb1f0a3c2cd4b1",
+    "v4a_frozen_postprocessing.py": "6523c9da35e41af918d9929a74a4b4f0b0b81401ed32d3a63f88a5b7af02984f",
+    "v4a_frozen_operating_configuration.json": "6555345f26140800b758f4cbba1277f4bd501b71382c40f54b9d5cd1da529e4e",
+    "v4a_frozen_test_summary.json": "27744694130cae8931d9ef35c14f018d10c0f3ec1dae36cc76668059c4665990",
+    "requirements.txt": "83b0cf32629dbee0711e01dde1f56c858bc7fa43695a4865052f418d313eebf2",
+    "README.md": "7c06356bd2a8870a0c12412cf060ec2e6ffda09a90f144abf1bffa270ddd0ff7",
+    "pneumothorax_512_v4a_fresh_45_55_best.pth": "109e102e7a521abc6c904e1c5ad214e1a3f18a5b3bfd3dc0d51c98be4a585635"
+  },
+  "warning": "AI-generated suggestions require human review and must not be treated as a medical diagnosis."
+}

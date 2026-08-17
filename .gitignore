@@ -1,24 +1,136 @@
-﻿.venv/
+# ============================================================
+# Smart Medical Imaging Annotation Tool
+# .gitignore
+# ============================================================
+
+# Python environments / cache
+.venv/
+venv/
+env/
+ENV/
 __pycache__/
 *.py[cod]
-SIIM_TRAIN_TEST/
-prepared_data/
-checkpoints/
-prediction_examples/
-*.dcm
-*.pth
-*.pt
-*.tar
-*.zip
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.ipynb_checkpoints/
+
+# Environment variables / secrets
 .env
 .env.*
-.ipynb_checkpoints/
-gitignore
+!.env.example
+
+# IDE / editor / OS files
+.vscode/
+.idea/
+*.code-workspace
+.DS_Store
+Thumbs.db
+desktop.ini
 ~$*
-*.png
-*.jpg
-*.jpeg
-*.csv
+
+# Frontend generated files
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+frontend/.vite/
+frontend/coverage/
+frontend/.cache/
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+
+medimask-frontend/node_modules/
+medimask-frontend/dist/
+medimask-frontend/build/
+medimask-frontend/.vite/
+medimask-frontend/coverage/
+medimask-frontend/.cache/
+medimask-frontend/.env
+medimask-frontend/.env.*
+!medimask-frontend/.env.example
+
+# Raw medical datasets
+SIIM_TRAIN_TEST/
+PTX-498/
+datasets/
+data/raw/
+data/external/
+
+# Medical image / volume formats
+*.dcm
 *.dicom
+*.before_*
 *.nii
 *.nii.gz
+*.mha
+*.mhd
+*.nrrd
+
+# Prepared / derived data
+prepared_data/
+corrected_annotations/
+
+# Model checkpoints / trained weights
+checkpoints/
+*.pth
+*.pt
+*.ckpt
+*.onnx
+
+# Generated inference / evaluation / diagnostic outputs
+prediction_examples/
+inference_outputs/
+inference_outputs_*/
+validation_analysis/
+augmentation_examples/
+diagnostics_v3d_flip_tta_validation_local/
+diagnostics_v3d_flip_tta_validation_local_*/
+ptx498_v3c_full_evaluation/
+ptx498_v3c_random_outputs/
+ptx498_v4a_random_outputs/
+ptx498_v4a_test_outputs/
+ptx498_*_outputs/
+ptx498_*_evaluation/
+outputs/
+results/
+runs/
+logs/
+wandb/
+
+# Large archives / packaged datasets
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+*.rar
+*.7z
+
+# Temporary / backup files
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+
+# Build / packaging artifacts
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Optional local database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Project-specific generated / backup files
+dataset_mask_check.png
+*.before_*
+
+# Local medical demo images
+frontend/public/demo/*.png

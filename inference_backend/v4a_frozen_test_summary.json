@@ -1,0 +1,59 @@
+{
+  "status": "completed_frozen_test_evaluation",
+  "completed_utc": "2026-08-15T16:45:55.696170+00:00",
+  "configuration_sha256": "6555345f26140800b758f4cbba1277f4bd501b71382c40f54b9d5cd1da529e4e",
+  "checkpoint_sha256": "109e102e7a521abc6c904e1c5ad214e1a3f18a5b3bfd3dc0d51c98be4a585635",
+  "frozen_configuration": {
+    "threshold": 0.15,
+    "minimum_component_pixels": 112,
+    "input_size": [
+      512,
+      512
+    ],
+    "checkpoint_completed_epoch": 10
+  },
+  "test_samples": {
+    "total": 1205,
+    "positive": 267,
+    "negative": 938
+  },
+  "case_level_metrics": {
+    "positive_dice": 0.47590817618291714,
+    "positive_dice_bootstrap_95_ci": [
+      0.4411436767674087,
+      0.5098502016294701
+    ],
+    "overall_case_dice": 0.6539979112372106,
+    "sensitivity": 0.9026217228464419,
+    "sensitivity_wilson_95_ci": [
+      0.8611433721258931,
+      0.9326785518326125
+    ],
+    "specificity": 0.7046908315565032,
+    "specificity_wilson_95_ci": [
+      0.6747096529332143,
+      0.7330022170882416
+    ],
+    "positive_empty_predictions": 26,
+    "false_positive_negative_images": 277,
+    "negative_mean_predicted_fraction": 0.0013556815922133195,
+    "selection_score": 0.5681321536277296
+  },
+  "positive_reference_agreement": {
+    "mean_dice": 0.47590817618291714,
+    "mean_iou": 0.35806156921389726,
+    "mean_pixel_precision": 0.5204472115461828,
+    "mean_pixel_recall": 0.534610965810779
+  },
+  "dataset_pixel_metrics": {
+    "true_positive_pixels": 509035,
+    "false_positive_pixels": 629454,
+    "false_negative_pixels": 396127,
+    "micro_dice": 0.49816235746710175,
+    "micro_iou": 0.33170187199924933,
+    "micro_precision": 0.44711455270977585,
+    "micro_recall": 0.5623689461113038
+  },
+  "evaluation_seconds": 24.865118848999828,
+  "policy": "This is the single test evaluation of the frozen configuration. No threshold or filtering changes may be selected using these results."
+}
