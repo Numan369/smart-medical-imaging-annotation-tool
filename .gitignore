@@ -134,3 +134,18 @@ dataset_mask_check.png
 
 # Local medical demo images
 frontend/public/demo/*.png
+# ============================================================
+# Thyroid TN3K
+# ============================================================
+
+# Raw thyroid medical datasets
+Thyroid_TN3K/dataset/
+
+# Generated/prepared metadata
+Thyroid_TN3K/prepared_data/
+
+# Trained thyroid models
+Thyroid_TN3K/checkpoints/
+
+# Predictions, plots, diagnostics, etc.
+Thyroid_TN3K/outputs/
